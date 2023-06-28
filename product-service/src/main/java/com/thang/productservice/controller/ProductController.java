@@ -3,6 +3,8 @@ package com.thang.productservice.controller;
 import com.thang.productservice.dto.ProductDto;
 import com.thang.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -12,8 +14,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("product")
 @RequiredArgsConstructor
 public class ProductController {
-
-    private ProductService productService;
+    private final ProductService productService;
 
     @GetMapping("all")
     public Flux<ProductDto> all() {
@@ -43,6 +44,12 @@ public class ProductController {
     @DeleteMapping("{id}")
     public Mono<Void> deleteProduct(@PathVariable String id) {
         return this.productService.deleteProduct(id);
+    }
+
+    @GetMapping("price-range")
+    public Flux<ProductDto> findProductsInPriceRange(@RequestParam("min") int min,
+                                                     @RequestParam("max") int max) {
+        return productService.getProductByPriceRange(min, max);
     }
 
 }

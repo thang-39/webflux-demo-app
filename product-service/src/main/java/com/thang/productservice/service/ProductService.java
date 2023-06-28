@@ -4,6 +4,7 @@ import com.thang.productservice.dto.ProductDto;
 import com.thang.productservice.repository.ProductRepository;
 import com.thang.productservice.util.EntityDtoUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -45,4 +46,15 @@ public class ProductService {
         return this.repository.deleteById(id);
     }
 
+    public Flux<ProductDto> getProductByPriceRangeThang(int min, int max) {
+        return repository.findByPriceBetween(min, max)
+                .concatWith(repository.findByPrice(min))
+                .concatWith(repository.findByPrice(max))
+                .map(EntityDtoUtil::toDto);
+    }
+
+    public Flux<ProductDto> getProductByPriceRange(int min, int max) {
+        return repository.findByPriceBetween(Range.closed(min,max))
+                .map(EntityDtoUtil::toDto);
+    }
 }
