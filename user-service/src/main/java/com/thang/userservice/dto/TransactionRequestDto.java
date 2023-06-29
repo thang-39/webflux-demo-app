@@ -4,12 +4,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Data
 @NoArgsConstructor
+@Data
 @ToString
-public class UserDto {
+public class TransactionRequestDto {
 
-    private Integer id;
-    private String name;
-    private Integer balance;
+    private Integer userId;
+    private Integer amount;
 }
