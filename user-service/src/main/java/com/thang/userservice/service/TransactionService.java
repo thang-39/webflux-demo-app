@@ -3,11 +3,13 @@ package com.thang.userservice.service;
 import com.thang.userservice.dto.TransactionRequestDto;
 import com.thang.userservice.dto.TransactionResponseDto;
 import com.thang.userservice.dto.TransactionStatus;
+import com.thang.userservice.entity.UserTransaction;
 import com.thang.userservice.repository.UserRepository;
 import com.thang.userservice.repository.UserTransactionRepository;
 import com.thang.userservice.util.EntityDtoUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -24,5 +26,9 @@ public class  TransactionService {
                 .flatMap(transactionRepository::save)
                 .map(ut -> EntityDtoUtil.toDto(requestDto, TransactionStatus.APPROVED))
                 .defaultIfEmpty(EntityDtoUtil.toDto(requestDto, TransactionStatus.DECLINED));
+    }
+
+    public Flux<UserTransaction> getTransactionsByUserId(int userId) {
+        return transactionRepository.findByUserId(userId);
     }
 }

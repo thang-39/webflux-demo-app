@@ -39,4 +39,12 @@ public class EntityDtoUtil {
         responseDto.setStatus(status);
         return responseDto;
     }
+
+    public static TransactionResponseDto toDto(UserTransaction userTransaction) {
+        TransactionResponseDto responseDto = new TransactionResponseDto();
+        responseDto.setAmount(userTransaction.getAmount());
+        responseDto.setUserId(userTransaction.getUserId());
+        responseDto.setStatus(TransactionStatus.APPROVED);
+        return responseDto;
+    }
 }
