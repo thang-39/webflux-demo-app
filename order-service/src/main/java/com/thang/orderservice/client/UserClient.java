@@ -2,9 +2,11 @@ package com.thang.orderservice.client;
 
 import com.thang.orderservice.dto.TransactionRequestDto;
 import com.thang.orderservice.dto.TransactionResponseDto;
+import com.thang.orderservice.dto.UserDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -25,5 +27,13 @@ public class UserClient {
                 .bodyValue(requestDto)
                 .retrieve()
                 .bodyToMono(TransactionResponseDto.class);
+    }
+
+    public Flux<UserDto> getUsers() {
+        return webClient
+                .get()
+                .uri("all")
+                .retrieve()
+                .bodyToFlux(UserDto.class);
     }
 }
