@@ -1,16 +1,21 @@
 package com.thang.orderservice.util;
 
-import com.thang.orderservice.dto.OrderStatus;
-import com.thang.orderservice.dto.RequestContext;
-import com.thang.orderservice.dto.TransactionRequestDto;
-import com.thang.orderservice.dto.TransactionStatus;
+import com.thang.orderservice.dto.*;
 import com.thang.orderservice.entity.PurchaseOrder;
+import org.springframework.beans.BeanUtils;
 
 public class EntityDtoUtil {
 
+    public static PurchaseOrderResponseDto getPurchaseOrderResponseDto(PurchaseOrder purchaseOrder) {
+        PurchaseOrderResponseDto dto = new PurchaseOrderResponseDto();
+        BeanUtils.copyProperties(purchaseOrder,dto);
+        dto.setOrderId(purchaseOrder.getId());
+        return dto;
+    }
+
     public static void setTransactionRequestDto(RequestContext requestContext) {
         TransactionRequestDto dto = new TransactionRequestDto();
-        dto.setUserId(requestContext.getTransactionRequestDto().getUserId());
+        dto.setUserId(requestContext.getPurchaseOrderRequestDto().getUserId());
         dto.setAmount(requestContext.getProductDto().getPrice());
         requestContext.setTransactionRequestDto(dto);
     }
