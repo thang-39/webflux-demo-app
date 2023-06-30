@@ -11,7 +11,7 @@ import reactor.core.publisher.Sinks;
 public class SinkConfig {
 
     @Bean
-    public Sinks.Many<Object> sink() {
+    public Sinks.Many<ProductDto> sink() {
         return Sinks.many().replay().limit(1);
     }
 
